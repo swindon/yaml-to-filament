@@ -1,0 +1,14 @@
+# Package specific
+vendor/
+node_modules/
+*.log
+
+# IDE specific
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS specific
+.DS_Store
+Thumbs.db
