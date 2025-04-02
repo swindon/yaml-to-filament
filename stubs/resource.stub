@@ -1,0 +1,40 @@
+<?php
+
+namespace App\Filament\Resources;
+
+use Filament\Resources\Resource;
+use Filament\Resources\Pages\{{RESOURCE_PAGE}};
+use App\Models\{{MODEL_NAME}};
+
+class {{RESOURCE_NAME}} extends Resource
+{
+    protected static ?string $model = {{MODEL_NAME}}::class;
+
+    protected static ?string $navigationIcon = '{{ICON}}';
+
+    public static function form(Form $form): Form
+    {
+        return $form
+            ->schema([
+                {{FORM_SCHEMA}}
+            ]);
+    }
+
+    public static function table(Table $table): Table
+    {
+        return $table
+            ->columns([
+                {{TABLE_COLUMNS}}
+            ])
+            ->filters([
+                {{TABLE_FILTERS}}
+            ]);
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => {{RESOURCE_PAGE}}::route('/'),
+        ];
+    }
+}

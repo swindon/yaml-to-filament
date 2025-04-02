@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Filament\Pages;
+
+use Filament\Pages\Page;
+
+class {{PAGE_NAME}} extends Page
+{
+    protected static ?string $title = '{{TITLE}}';
+
+    protected static string $view = '{{VIEW}}';
+
+    // Additional page logic can be added here.
+}

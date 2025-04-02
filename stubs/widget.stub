@@ -1,0 +1,14 @@
+<?php
+
+namespace App\Filament\Widgets;
+
+use Filament\Widgets\Widget;
+
+class {{WIDGET_NAME}} extends Widget
+{
+    protected static ?string $heading = '{{TITLE}}';
+
+    protected static string $view = '{{VIEW}}';
+
+    {{ADDITIONAL_PROPERTIES}}
+}

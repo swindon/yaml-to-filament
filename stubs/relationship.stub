@@ -1,0 +1,11 @@
+/**
+ * Define a {{RELATIONSHIP_TYPE}} relationship.
+ *
+ * @return \Illuminate\Database\Eloquent\Relations\{{RELATIONSHIP_TYPE}}
+ */
+public function {{RELATIONSHIP_NAME}}()
+{
+    return $this->{{RELATIONSHIP_TYPE}}(
+        {{RELATED_MODEL}}::class{{RELATIONSHIP_PARAMETERS}}
+    );
+}
