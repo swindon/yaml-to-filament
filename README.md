@@ -7,7 +7,7 @@ A Laravel Filament package that allows developers to define models, resources, p
 Install via composer:
 
 ```sh
-composer require swindon/yaml-to-filament:dev-main --prefer-source
+composer config repositories.swindon/yaml-to-filament vcs "https://github.com/swindon/yaml-to-filament" && composer require swindon/yaml-to-filament:dev-main
 ```
 
 Install manually by adding to composer.json file
