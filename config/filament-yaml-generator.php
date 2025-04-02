@@ -15,7 +15,6 @@ return [
         'layouts' => app_path('Filament/Layouts'),
         'notifications' => app_path('Filament/Notifications'),
         'actions' => app_path('Filament/Actions'),
-        'resources' => app_path('Filament/Resources'),
         'settings' => app_path('Filament/Settings'),
         'menus' => app_path('Filament/Menus'),
         'themes' => app_path('Filament/Themes'),

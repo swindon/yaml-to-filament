@@ -35,7 +35,11 @@ class WidgetGenerator extends BaseGenerator
         }
 
         foreach ($blueprintData['widgets'] as $widgetName => $definition) {
-            $title = isset($definition['title']) ? addslashes($definition['title']) : $widgetName;
+            if (!preg_match('/^[a-zA-Z0-9_]+$/', $widgetName)) {
+                throw new \InvalidArgumentException("Invalid widget name: {$widgetName}");
+            }
+
+            $title = isset($definition['title']) ? htmlspecialchars($definition['title'], ENT_QUOTES) : $widgetName;
             $view = isset($definition['view'])
                 ? $definition['view']
                 : 'filament.widgets.' . strtolower($widgetName);

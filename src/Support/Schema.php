@@ -23,47 +23,7 @@ class Schema
         }
 
         // Validate "models" section.
-        if (isset($data['models'])) {
-            if (!is_array($data['models'])) {
-                throw new \InvalidArgumentException("'models' must be an array.");
-            }
-            foreach ($data['models'] as $modelName => $modelDefinition) {
-                if (!is_array($modelDefinition)) {
-                    throw new \InvalidArgumentException("Definition for model '{$modelName}' must be an array.");
-                }
-                // "fillable" should be an array if provided.
-                if (isset($modelDefinition['fillable']) && !is_array($modelDefinition['fillable'])) {
-                    throw new \InvalidArgumentException("The 'fillable' key for model '{$modelName}' must be an array.");
-                }
-                // "columns" should be an array if provided.
-                if (isset($modelDefinition['columns']) && !is_array($modelDefinition['columns'])) {
-                    throw new \InvalidArgumentException("The 'columns' key for model '{$modelName}' must be an array.");
-                }
-                // "relationships" should be an array if provided.
-                if (isset($modelDefinition['relationships'])) {
-                    if (!is_array($modelDefinition['relationships'])) {
-                        throw new \InvalidArgumentException("The 'relationships' key for model '{$modelName}' must be an array.");
-                    }
-                    $allowedRelations = ['belongsTo', 'hasMany', 'hasOne', 'belongsToMany'];
-                    foreach ($modelDefinition['relationships'] as $relationType => $relatedModels) {
-                        if (!in_array($relationType, $allowedRelations, true)) {
-                            throw new \InvalidArgumentException("Invalid relationship type '{$relationType}' for model '{$modelName}'. Allowed types: " . implode(', ', $allowedRelations) . ".");
-                        }
-                        // Allow a single string or an array of strings.
-                        if (!is_array($relatedModels) && !is_string($relatedModels)) {
-                            throw new \InvalidArgumentException("Relationship '{$relationType}' for model '{$modelName}' must be an array or a string.");
-                        }
-                        if (is_array($relatedModels)) {
-                            foreach ($relatedModels as $relatedModel) {
-                                if (!is_string($relatedModel)) {
-                                    throw new \InvalidArgumentException("Each related model in '{$relationType}' for model '{$modelName}' must be a string.");
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        self::validateModels($data['models'] ?? []);
 
         // Validate "resources" section.
         if (isset($data['resources'])) {
@@ -130,5 +90,51 @@ class Schema
         }
 
         return true;
+    }
+
+    /**
+     * Validate the "models" section of the blueprint.
+     *
+     * @param array $models
+     * @throws \InvalidArgumentException If any validation rule fails.
+     */
+    private static function validateModels(array $models): void
+    {
+        foreach ($models as $modelName => $modelDefinition) {
+            if (!is_array($modelDefinition)) {
+                throw new \InvalidArgumentException("Definition for model '{$modelName}' must be an array.");
+            }
+            // "fillable" should be an array if provided.
+            if (isset($modelDefinition['fillable']) && !is_array($modelDefinition['fillable'])) {
+                throw new \InvalidArgumentException("The 'fillable' key for model '{$modelName}' must be an array.");
+            }
+            // "columns" should be an array if provided.
+            if (isset($modelDefinition['columns']) && !is_array($modelDefinition['columns'])) {
+                throw new \InvalidArgumentException("The 'columns' key for model '{$modelName}' must be an array.");
+            }
+            // "relationships" should be an array if provided.
+            if (isset($modelDefinition['relationships'])) {
+                if (!is_array($modelDefinition['relationships'])) {
+                    throw new \InvalidArgumentException("The 'relationships' key for model '{$modelName}' must be an array.");
+                }
+                $allowedRelations = ['belongsTo', 'hasMany', 'hasOne', 'belongsToMany'];
+                foreach ($modelDefinition['relationships'] as $relationType => $relatedModels) {
+                    if (!in_array($relationType, $allowedRelations, true)) {
+                        throw new \InvalidArgumentException("Invalid relationship type '{$relationType}' for model '{$modelName}'. Allowed types: " . implode(', ', $allowedRelations) . ".");
+                    }
+                    // Allow a single string or an array of strings.
+                    if (!is_array($relatedModels) && !is_string($relatedModels)) {
+                        throw new \InvalidArgumentException("Relationship '{$relationType}' for model '{$modelName}' must be an array or a string.");
+                    }
+                    if (is_array($relatedModels)) {
+                        foreach ($relatedModels as $relatedModel) {
+                            if (!is_string($relatedModel)) {
+                                throw new \InvalidArgumentException("Each related model in '{$relationType}' for model '{$modelName}' must be a string.");
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

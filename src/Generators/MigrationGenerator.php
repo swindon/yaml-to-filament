@@ -12,7 +12,7 @@ class MigrationGenerator extends BaseGenerator
 
         foreach ($blueprintData['models'] as $tableName => $definition) {
             // Use the current timestamp for the migration file name.
-            $timestamp = date('Y_m_d_His');
+            $timestamp = now()->format('Y_m_d_His');
             $fileName = $timestamp . '_create_' . strtolower($tableName) . '_table.php';
             $stubPath = config('filament-yaml-generator.stubs_path') . '/migration.stub';
 
@@ -20,6 +20,9 @@ class MigrationGenerator extends BaseGenerator
             $columns = "";
             if (isset($definition['columns']) && is_array($definition['columns'])) {
                 foreach ($definition['columns'] as $column => $type) {
+                    if (!in_array($type, ['string', 'integer', 'boolean', 'text'], true)) {
+                        throw new \InvalidArgumentException("Invalid column type '{$type}' for column '{$column}'.");
+                    }
                     $columns .= "\$table->$type('$column');\n            ";
                 }
             } else {

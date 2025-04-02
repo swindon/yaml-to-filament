@@ -10,7 +10,7 @@ class YamlToFilamentServiceProvider extends ServiceProvider
     public function register()
     {
         // Merge package config with user config
-        $this->mergeConfigFrom(__DIR__ . '/../config/yaml-to-filament.php', 'yaml-to-filament');
+        $this->mergeConfigFrom(__DIR__ . '/../config/filament-yaml-generator.php', 'filament-yaml-generator');
         
         // Register command
         $this->app->singleton('command.filament.generate.yaml', function ($app) {
@@ -23,7 +23,11 @@ class YamlToFilamentServiceProvider extends ServiceProvider
     {
         // Publish configuration file for customization.
         $this->publishes([
-            __DIR__ . '/../config/yaml-to-filament.php' => config_path('yaml-to-filament.php'),
+            __DIR__ . '/../config/filament-yaml-generator.php' => config_path('filament-yaml-generator.php'),
         ], 'config');
+
+        if (!file_exists(config_path('filament-yaml-generator.php'))) {
+            throw new \RuntimeException("Configuration file not published. Run 'php artisan vendor:publish'.");
+        }
     }
 }

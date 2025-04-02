@@ -11,7 +11,7 @@ class YamlParser
         // Check if $path is a file or a directory.
         if (is_dir($path)) {
             $data = [];
-            foreach (glob($path . '/*.y{a,}ml', GLOB_BRACE) as $file) {
+            foreach (glob($path . '/*.y{a,}ml', GLOB_BRACE) ?: [] as $file) {
                 $data = array_merge($data, Yaml::parseFile($file));
             }
             return $data;
@@ -19,6 +19,6 @@ class YamlParser
             return Yaml::parseFile($path);
         }
         
-        throw new \InvalidArgumentException("The path {$path} is not valid.");
+        throw new \InvalidArgumentException("The provided path '{$path}' is neither a valid file nor a directory.");
     }
 }
